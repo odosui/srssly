@@ -88,7 +88,7 @@ export default Api;
 
 function getBaseUrl() {
   if (import.meta.env.PROD) {
-    return ""; // use relative path in production
+    return "/api"; // use relative path in production
   } else {
     return "http://localhost:3000/api";
   }
