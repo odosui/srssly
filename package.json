@@ -11,7 +11,8 @@
     "build:server": "tsc",
     "build:client": "cd client && npm run build",
     "start": "node dist/main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typesonce": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
