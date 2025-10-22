@@ -16,6 +16,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static files from client/public (works in both dev and prod)
+const publicPath = path.join(__dirname, "../client/public");
+app.use("/static", express.static(publicPath));
+
 // Routes
 app.use("/api/users", usersRouter);
 app.use("/api/feeds", feedsRouter);

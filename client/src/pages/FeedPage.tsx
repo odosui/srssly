@@ -64,7 +64,8 @@ const FeedPageWithState: React.FC = () => {
 
   useEffect(() => {
     fire({ action: "LOAD_ENTRIES" });
-  }, [fire]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   usePullToRefresh(ref, () => {
     fire({ action: "LOAD_ENTRIES" });

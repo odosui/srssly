@@ -1,0 +1,41 @@
+{
+  "name": "sRSSly: A clean and simple RSS reader",
+  "short_name": "sRSSly",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["news", "reading"],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8f8f8",
+  "description": "sRSSly is a clean and simple RSS reader. It's a PWA, so you can install it on your phone or desktop.",
+  "orientation": "portrait",
+  "theme_color": "#f8f8f8",
+  "shortcuts" : [
+    {
+      "name": "Feeds",
+      "url": "/feeds",
+      "description": "List of your feeds"
+    }
+  ],
+  "icons": [
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
