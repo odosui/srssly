@@ -61,7 +61,11 @@ export class FeedModel {
        RETURNING *`,
       [title, url, iconUrl],
     );
-    return result.rows[0];
+    const row = result.rows[0];
+    if (!row) {
+      throw new Error("Failed to create feed");
+    }
+    return row;
   }
 
   /**
@@ -102,7 +106,11 @@ export class FeedModel {
        RETURNING *`,
       [userId, feedId],
     );
-    return result.rows[0];
+    const row = result.rows[0];
+    if (!row) {
+      throw new Error("Failed to create user_feed");
+    }
+    return row;
   }
 
   /**

@@ -106,7 +106,14 @@ export class EntryModel {
        RETURNING *`,
       [userId, entryId],
     );
-    return result.rows[0];
+
+    const row = result.rows[0];
+
+    if (!row) {
+      throw new Error("Failed to create user_entry");
+    }
+
+    return row;
   }
 
   /**
@@ -194,6 +201,11 @@ export class EntryModel {
        RETURNING *`,
       [feedId, entryId, title, url, author, published, summary],
     );
-    return result.rows[0];
+    const row = result.rows[0];
+
+    if (!row) {
+      throw new Error("Failed to create entry");
+    }
+    return row;
   }
 }

@@ -51,10 +51,10 @@ export async function parseXmlWithEntries(xml: string): Promise<{
 
     // Parse entries
     const entries: ParsedFeedEntry[] = (feedData.items || []).map((item) => ({
-      entryId: item.guid || item.link || item.id || "",
+      entryId: item.guid || item.link || item["id"] || "",
       title: item.title || "Untitled",
       url: item.link || "",
-      author: item.creator || item.author || null,
+      author: item.creator || item["author"] || null,
       published: item.pubDate ? new Date(item.pubDate) : new Date(),
       summary: item.contentSnippet || item.content || item.summary || null,
     }));

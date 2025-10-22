@@ -27,7 +27,7 @@ app.get("/api/health", (_req, res) => {
 });
 
 // Serve static files from the React app in production
-if (process.env.NODE_ENV === "production") {
+if (process.env["NODE_ENV"] === "production") {
   app.use(express.static(path.join(__dirname, "../client/dist")));
 
   // Handle React routing, return all requests to React app
