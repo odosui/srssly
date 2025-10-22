@@ -64,7 +64,7 @@ const FeedPageWithState: React.FC = () => {
 
   useEffect(() => {
     fire({ action: "LOAD_ENTRIES" });
-  }, []);
+  }, [fire]);
 
   usePullToRefresh(ref, () => {
     fire({ action: "LOAD_ENTRIES" });

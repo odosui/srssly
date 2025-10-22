@@ -4,8 +4,8 @@ const SHOW_INDICATOR_THRESHOLD = 50;
 const TRIGGER_THRESHOLD = 100;
 
 function usePullToRefresh(
-  ref: React.RefObject<HTMLDivElement>,
-  onTrigger: () => void
+  ref: React.RefObject<HTMLDivElement | null>,
+  onTrigger: () => void,
 ) {
   useEffect(() => {
     const el = ref.current;

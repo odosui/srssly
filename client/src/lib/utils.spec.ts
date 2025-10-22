@@ -1,3 +1,4 @@
+import { describe, expect, it, test } from "vitest";
 import { dropTags, forceNewTab, shorten } from "./utils";
 
 describe("forceNewTab", () => {
@@ -27,13 +28,13 @@ describe("forceNewTab", () => {
     expect(result).toEqual(expected);
   });
 
-  xtest("should handle anchor tags with no href attribute", () => {
-    const html = "<p>This is a <a>link</a></p>";
-    const expected =
-      '<p>This is a <a target="_blank" rel="noopener noreferrer">link</a></p>';
-    const result = forceNewTab(html);
-    expect(result).toEqual(expected);
-  });
+  // test("should handle anchor tags with no href attribute", () => {
+  //   const html = "<p>This is a <a>link</a></p>";
+  //   const expected =
+  //     '<p>This is a <a target="_blank" rel="noopener noreferrer">link</a></p>';
+  //   const result = forceNewTab(html);
+  //   expect(result).toEqual(expected);
+  // });
 
   test("should handle anchor tags with empty href attribute", () => {
     const html = '<p>This is a <a href="">link</a></p>';
@@ -50,14 +51,14 @@ describe("forceNewTab", () => {
     expect(result).toEqual(expected);
   });
 
-  xtest("should not add target and rel attributes to anchor tags that already have them", () => {
-    const html =
-      '<p>This is a <a target="_blank" rel="noopener noreferrer" href="https://example.com">link</a></p>';
-    const expected =
-      '<p>This is a <a target="_blank" rel="noopener noreferrer" href="https://example.com">link</a></p>';
-    const result = forceNewTab(html);
-    expect(result).toEqual(expected);
-  });
+  // test("should not add target and rel attributes to anchor tags that already have them", () => {
+  //   const html =
+  //     '<p>This is a <a target="_blank" rel="noopener noreferrer" href="https://example.com">link</a></p>';
+  //   const expected =
+  //     '<p>This is a <a target="_blank" rel="noopener noreferrer" href="https://example.com">link</a></p>';
+  //   const result = forceNewTab(html);
+  //   expect(result).toEqual(expected);
+  // });
 });
 
 describe("shorten", () => {

@@ -21,3 +21,6 @@ jobs:
 
       - name: Check types (client)
         run: cd client && npm run typesonce
+
+      - name: Run tests
+        run: cd client && npm test
