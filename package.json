@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/main.ts",
-    "build": "tsc",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "tsx watch src/main.ts",
+    "dev:client": "cd client && npm run dev",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "tsc",
+    "build:client": "cd client && npm run build",
     "start": "node dist/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,6 +33,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.9.1",
     "@types/pg": "^8.15.5",
+    "concurrently": "^9.2.1",
     "nodemon": "^3.1.10",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"

@@ -1,6 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import path from "path";
 import usersRouter from "./routes/users";
 import feedsRouter from "./routes/feeds";
 import entriesRouter from "./routes/entries";
@@ -16,14 +17,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/users", usersRouter);
-app.use("/feeds", feedsRouter);
-app.use("/entries", entriesRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/feeds", feedsRouter);
+app.use("/api/entries", entriesRouter);
 
 // Health check
-app.get("/health", (_req, res) => {
+app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });
+
+// Serve static files from the React app in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+
+  // Handle React routing, return all requests to React app
+  app.get("*", (_req, res) => {
+    res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
+  });
+}
 
 // Start server
 app.listen(port, () => {
