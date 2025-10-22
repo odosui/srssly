@@ -3,6 +3,15 @@ import { FeedOption } from "../models/Feed";
 import Parser from "rss-parser";
 import axios from "axios";
 
+export interface ParsedFeedEntry {
+  entryId: string;
+  title: string;
+  url: string;
+  author: string | null;
+  published: Date;
+  summary: string | null;
+}
+
 export async function parseXml(xml: string) {
   const parser = new Parser();
 
@@ -17,6 +26,43 @@ export async function parseXml(xml: string) {
     return {
       title: feedData.title || "Untitled",
       iconUrl,
+    };
+  } catch (error) {
+    console.error("Error parsing feed XML:", error);
+    return null;
+  }
+}
+
+export async function parseXmlWithEntries(xml: string): Promise<{
+  title: string;
+  iconUrl: string | null;
+  entries: ParsedFeedEntry[];
+} | null> {
+  const parser = new Parser();
+
+  try {
+    const feedData = await parser.parseString(xml);
+
+    // Extract icon URL
+    let iconUrl: string | null = null;
+    if (feedData.image?.url) {
+      iconUrl = feedData.image.url;
+    }
+
+    // Parse entries
+    const entries: ParsedFeedEntry[] = (feedData.items || []).map((item) => ({
+      entryId: item.guid || item.link || item.id || "",
+      title: item.title || "Untitled",
+      url: item.link || "",
+      author: item.creator || item.author || null,
+      published: item.pubDate ? new Date(item.pubDate) : new Date(),
+      summary: item.contentSnippet || item.content || item.summary || null,
+    }));
+
+    return {
+      title: feedData.title || "Untitled",
+      iconUrl,
+      entries,
     };
   } catch (error) {
     console.error("Error parsing feed XML:", error);

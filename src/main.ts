@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import usersRouter from "./routes/users";
 import feedsRouter from "./routes/feeds";
+import entriesRouter from "./routes/entries";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/users", usersRouter);
 app.use("/feeds", feedsRouter);
+app.use("/entries", entriesRouter);
 
 // Health check
 app.get("/health", (_req, res) => {

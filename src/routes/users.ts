@@ -101,7 +101,7 @@ router.post("/refresh", async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Check if token has expired (explicit check as in Rails controller)
+    // Check if token has expired
     if (new Date(result.authToken.expire_at) < new Date()) {
       res.status(401).json({ error: "Refresh token has expired" });
       return;

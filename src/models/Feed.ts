@@ -1,4 +1,6 @@
 import pool from "../config/database";
+import { fetchFeed, parseXmlWithEntries } from "../utils/feeds";
+import { EntryModel } from "./Entry";
 
 export interface Feed {
   id: number;
@@ -125,5 +127,56 @@ export class FeedModel {
       "DELETE FROM user_feeds WHERE user_id = $1 AND feed_id = $2",
       [userId, feedId],
     );
+  }
+
+  static async fetchEntries(feedId: number): Promise<{
+    newEntries: number;
+    totalEntries: number;
+  }> {
+    // Get the feed
+    const feed = await this.findById(feedId);
+    if (!feed) {
+      throw new Error("Feed not found");
+    }
+
+    // Fetch the feed XML
+    const response = await fetchFeed(feed.url);
+    if (!response) {
+      throw new Error("Failed to fetch feed");
+    }
+
+    // Parse the XML with entries
+    const parsedFeed = await parseXmlWithEntries(response.data);
+    if (!parsedFeed) {
+      throw new Error("Failed to parse feed XML");
+    }
+
+    let newEntriesCount = 0;
+    const totalEntries = parsedFeed.entries.length;
+
+    // Process each entry
+    for (const entry of parsedFeed.entries) {
+      // Check if entry already exists
+      const existingEntry = await EntryModel.findByEntryId(entry.entryId);
+
+      if (!existingEntry) {
+        // Create new entry
+        await EntryModel.create(
+          feedId,
+          entry.entryId,
+          entry.title,
+          entry.url,
+          entry.author,
+          entry.published,
+          entry.summary,
+        );
+        newEntriesCount++;
+      }
+    }
+
+    return {
+      newEntries: newEntriesCount,
+      totalEntries,
+    };
   }
 }

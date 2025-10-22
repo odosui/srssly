@@ -62,6 +62,17 @@ router.post(
             res.status(400).json({ error: "Not able to find feed" });
             return;
           }
+
+          // Parse as RSS/Atom feed
+          feed = await createFeedFromXml(url, response.data);
+          if (!feed) {
+            res.status(400).json({ error: "Not able to parse feed" });
+            return;
+          }
+
+          await FeedModel.findOrCreateUserFeed(req.currentUser!.id, feed!.id);
+          res.json(toJson(feed));
+          return;
         } else {
           // Multiple feeds found, return options to user
           res.json({ options });
