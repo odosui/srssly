@@ -2,6 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import usersRouter from "./routes/users";
+import feedsRouter from "./routes/feeds";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/users", usersRouter);
+app.use("/feeds", feedsRouter);
 
 // Health check
 app.get("/health", (_req, res) => {
