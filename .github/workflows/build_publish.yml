@@ -13,8 +13,10 @@ jobs:
           node-version: 20
 
       - name: Install packages
-        run: |
-          npm install
+        run: npm install
+
+      - name: Install client packages
+        run: cd client && npm install
 
       - name: Check types (server)
         run: npm run typesonce
