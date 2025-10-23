@@ -28,6 +28,7 @@ router.post(
       let feed = await FeedModel.findByUrl(url);
       if (feed) {
         await FeedModel.findOrCreateUserFeed(req.currentUser!.id, feed.id);
+        await fetchEntriesForFeed(feed.id);
         res.json(toJson(feed));
         return;
       }
@@ -53,6 +54,7 @@ router.post(
 
           if (feed) {
             await FeedModel.findOrCreateUserFeed(req.currentUser!.id, feed.id);
+            await fetchEntriesForFeed(feed.id);
             res.json(toJson(feed));
             return;
           }
@@ -71,6 +73,7 @@ router.post(
           }
 
           await FeedModel.findOrCreateUserFeed(req.currentUser!.id, feed!.id);
+          await fetchEntriesForFeed(feed.id);
           res.json(toJson(feed));
           return;
         } else {
@@ -88,6 +91,7 @@ router.post(
       }
 
       await FeedModel.findOrCreateUserFeed(req.currentUser!.id, feed!.id);
+      await fetchEntriesForFeed(feed.id);
       res.json(toJson(feed));
     } catch (error) {
       console.error("Error creating feed:", error);
@@ -184,5 +188,14 @@ async function createFeedFromXml(
   } catch (error) {
     console.error("Error parsing feed XML:", error);
     return null;
+  }
+}
+
+async function fetchEntriesForFeed(feedId: number) {
+  // Fetch entries for the feed
+  try {
+    await FeedModel.fetchEntries(feedId);
+  } catch (error) {
+    console.error("Error fetching entries for feed:", error);
   }
 }
