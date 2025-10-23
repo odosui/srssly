@@ -1,13 +1,31 @@
 version: '3.8'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "${PORT:-3000}:3000"
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data2:/var/lib/postgresql/data
     environment:
-      - NODE_ENV=production
-      - PORT=${PORT:-3000}
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=srssly_production
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    image: "hiquest/srssly"
+    env_file:
+      - env.prod
+    ports:
+      - "3555:3000"
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
+    command: start
+
+volumes:
+  postgres_data2:
