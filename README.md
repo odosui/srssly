@@ -8,11 +8,11 @@
 
 ## ✨ Features
 
-- 📱 **Mobile-First Design** - Optimized for mobile devices (desktop view in progress)
-- 📲 **PWA Support** - Install as a native app on your device
-- 🌙 **Dark Mode** - Easy on the eyes, day or night
-- ⚡ **Fast & Lightweight** - Built with performance in mind
-- 🔄 **Auto-Discovery** - Automatically finds RSS/Atom feeds from any URL
+📱 **Mobile-First Design** - Optimized for mobile devices (desktop view in progress)
+📲 **PWA Support** - Install as a native app on your device
+🌙 **Dark Mode** - Easy on the eyes, day or night
+⚡ **Fast & Lightweight** - Built with performance in mind
+🔄 **Auto-Discovery** - Automatically finds RSS/Atom feeds from any URL
 
 ## 🐳 Quick Start with Docker / Docker Compose
 
@@ -46,34 +46,22 @@ docker compose run --rm app init-db
 */15 * * * * docker compose run --rm app fetch-entries
 ```
 
-### Running the Application
+### Useful commands in development
 
 ```bash
 # Development mode (both client and server)
 npm run dev
 
-# Server only
-npm run dev:server
+# Initialize the database
+npm run init-db
 
-# Client only
-npm run dev:client
-
-# Production build
-npm run build
-
-# Start production server
-npm start
+# Fetch entries from feeds
+npm run fetch-entries
 ```
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a PR.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Contributions are welcome! Feel free to submit a PR.
 
 ## 📝 License
 
