@@ -1,29 +1,32 @@
-# 📰 sRSSly
+# sRSSly
 
-> A minimalistic, modern RSS reader that takes reading seriously.
+A minimalistic self-hosted RSS reader that actually works how you'd expect.
 
 <p align="center">
   <img src="./screenshot.png" alt="sRSSly Screenshot" width="400">
 </p>
 
-## ✨ Features
+## What's this?
 
-📱 **Mobile-First Design** - Optimized for mobile devices (desktop view in progress)
-📲 **PWA Support** - Install as a native app on your device
-🌙 **Dark Mode** - Easy on the eyes, day or night
-⚡ **Fast & Lightweight** - Built with performance in mind
-🔄 **Auto-Discovery** - Automatically finds RSS/Atom feeds from any URL
+This is just a straightforward feed reader.
 
-## 🚀 Try it out!
+- Works great on mobile (desktop is coming, I promise)
+- Install it as an app on your phone (aka PWA)
+- Dark mode because obviously
+- Just paste any URL and it'll find the feed
+- Pretty fast
 
-I host the latest version for myself and friends at [https://app.srssly.com/](https://app.srssly.com/). Feel free to create an account and test it out!
+## Try it
 
-## 🐳 Quick Start with Docker / Docker Compose
+I'm running it at [app.srssly.com](https://app.srssly.com/) for myself and friends. You can make an account if you want to check it out.
 
-Create a file with the env variables:
+## Host it
+
+### Docker (easiest way)
+
+Make an `env.prod` file:
 
 ```bash
-# env.prod
 NODE_ENV=production
 DB_HOST=db
 DB_NAME=srssly_production
@@ -32,45 +35,31 @@ DB_PASSWORD=postgres
 DB_PORT=5432
 ```
 
-Run docker-compose:
+Then just:
 
 ```bash
 docker compose up -d
+docker compose run --rm app init-db # set up the database
 ```
 
-### Initialize the database
-
-```bash
-docker compose run --rm app init-db
-```
-
-### Setup a cron job to fetch entries every 15 minutes
+Set up a cron to fetch new entries every 15 minutes:
 
 ```bash
 */15 * * * * docker compose run --rm app fetch-entries
 ```
 
-### Useful commands in development
+### Local development
 
 ```bash
-# Development mode (both client and server)
-npm run dev
-
-# Initialize the database
-npm run init-db
-
-# Fetch entries from feeds
-npm run fetch-entries
+npm run dev              # runs everything
+npm run init-db          # set up the database
+npm run fetch-entries    # pull new feed entries
 ```
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! Feel free to submit a PR.
+PRs welcome. Keep it simple. Use AI. Just make sure to write tests.
 
-## 📝 License
+## License
 
-This project is open source and available under the [MIT License](LICENSE).
-
-<p align="center">
-  Made with ☕ and 📰
-</p>
+MIT
