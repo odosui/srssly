@@ -3,7 +3,7 @@
 > A minimalistic, modern RSS reader that takes reading seriously.
 
 <p align="center">
-  <img src="./screenshot.png" alt="sRSSly Screenshot" width="800">
+  <img src="./screenshot.png" alt="sRSSly Screenshot" width="400">
 </p>
 
 ## ✨ Features
