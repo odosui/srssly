@@ -14,6 +14,10 @@
 ⚡ **Fast & Lightweight** - Built with performance in mind
 🔄 **Auto-Discovery** - Automatically finds RSS/Atom feeds from any URL
 
+## 🚀 Try it out!
+
+I host the latest version for myself and friends at [https://app.srssly.com/](https://app.srssly.com/). Feel free to create an account and test it out!
+
 ## 🐳 Quick Start with Docker / Docker Compose
 
 Create a file with the env variables:
