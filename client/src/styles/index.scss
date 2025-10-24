@@ -317,6 +317,7 @@ button {
     display: flex;
     align-items: center;
     column-gap: $unit0;
+    cursor: pointer;
     i {
       font-size: $text4;
       color: var(--color-accent);
@@ -328,6 +329,9 @@ button {
     }
     &:hover {
       background-color: var(--color-accent);
+      i {
+        color: var(--color-accent-contrast);
+      }
     }
     &:disabled {
       background-color: transparent;
@@ -427,20 +431,8 @@ main.feed-page {
     align-items: top;
     justify-content: space-between;
     position: relative;
-    // background-image: repeating-linear-gradient(
-    //     to bottom,
-    //     transparent,
-    //     transparent 3px,
-    //     var(--color-underlay-bg) 3px,
-    //     var(--color-underlay-bg) 20px
-    //   ),
-    //   repeating-linear-gradient(
-    //     to right,
-    //     var(--color-underlay-accent),
-    //     var(--color-underlay-accent) 3px,
-    //     var(--color-underlay-bg) 3px,
-    //     var(--color-underlay-bg) 20px
-    //   );
+    transition: all 0.3s ease-in-out;
+    flex-wrap: wrap;
 
     &:first-child {
       padding-top: 0;
@@ -449,6 +441,18 @@ main.feed-page {
     &:last-child {
       padding-bottom: 0;
       border-bottom: none;
+    }
+
+    &.expanded {
+      background-color: var(--color-card-bg);
+      margin: $unit2 0;
+      padding: $unit2;
+      border-radius: $unit1;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+      .entry-info {
+        background-color: var(--color-card-bg);
+      }
     }
 
     &.read {
@@ -470,6 +474,13 @@ main.feed-page {
       z-index: 3;
       background-color: var(--color-bg);
       padding: $unit2 0;
+      cursor: pointer;
+      transition: opacity 0.2s ease-in-out;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
       .entry-title {
         font-weight: 500;
         margin-right: $unit0;
@@ -529,49 +540,38 @@ main.feed-page {
       }
     }
   }
-  .entry-detail {
-    padding: $unit3 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    // height: 100%;
-    background-color: var(--color-entry-detail-bg);
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-    color: var(--color-text);
 
-    .entry-detail-top {
-      height: $unit5;
-      width: 100%;
+  .entry-detail-inline {
+    width: 100%;
+    padding: $unit3 0 0 0;
+    margin-top: $unit2;
+    border-top: 1px solid var(--color-border);
+    animation: slideDown 0.3s ease-in-out;
+    overflow: hidden;
+
+    .entry-detail-actions {
+      margin-bottom: $unit3;
+      margin-top: $unit1;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding: 0 $unit3;
-      margin-bottom: $unit3;
-      .close {
-        font-size: $text2;
-        color: var(--color-text-lighter);
+    }
+
+    .entry-detail-title {
+      font-size: $text4;
+      margin-bottom: $unit2;
+      font-weight: 600;
+      a {
+        color: var(--color-text);
         &:hover {
-          color: var(--color-text);
+          color: var(--color-accent);
         }
       }
     }
 
-    .entry-detail-body {
-      padding: 0 $unit3;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-      h1 {
-        font-size: $text5;
-        margin-bottom: $unit3;
-        a {
-          color: var(--color-text);
-        }
-      }
+    .entry-detail-content {
+      color: var(--color-text);
+      line-height: 1.6;
 
       p {
         font-size: $text2;
@@ -583,6 +583,7 @@ main.feed-page {
         img {
           width: 100%;
           object-fit: cover;
+          border-radius: $unit1;
         }
         figcaption {
           font-size: $text1;
@@ -591,17 +592,27 @@ main.feed-page {
           text-align: center;
         }
       }
-    }
 
-    transition: all 0.2s ease-in-out;
-    opacity: 0;
-    transform: scale(0.8);
-    height: 0;
-    &.show {
+      a {
+        color: var(--color-accent);
+        text-decoration: underline;
+        &:hover {
+          color: var(--color-accent-hover);
+        }
+      }
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      max-height: 0;
+      transform: translateY(-10px);
+    }
+    to {
       opacity: 1;
-      transform: scale(1);
-      height: 100%;
-      z-index: 10;
+      max-height: 5000px;
+      transform: translateY(0);
     }
   }
 

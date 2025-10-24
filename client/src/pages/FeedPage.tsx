@@ -4,7 +4,7 @@ import TopBar from "../components/TopBar";
 import EntryItem from "../EntryItem";
 import { showToast } from "../lib/toast";
 import usePullToRefresh from "../lib/usePullToRefresh";
-import { dropHeight, forceNewTab, setAppBadge } from "../lib/utils";
+import { setAppBadge } from "../lib/utils";
 import MobileBottomMenu from "../MobileBottomMenu";
 import StateProvider, { StateContext } from "../StateProvider";
 import { type Entry } from "../types";
@@ -19,24 +19,24 @@ const FeedPage: React.FC = () => {
 
 const FeedPageWithState: React.FC = () => {
   const ref = React.useRef<HTMLDivElement>(null);
+  const [expandedEntryId, setExpandedEntryId] = React.useState<number | null>(
+    null,
+  );
 
   const isLogged = isLoggedIn();
 
   const {
     state: {
       entries: { data: entries, loading },
-      selectedEntry,
     },
     fire,
   } = useContext(StateContext);
 
   function handleEntrySelect(entry: Entry) {
     fire({ action: "SELECT_ENTRY", id: entry.id });
+    // Toggle expanded state - if clicking the same entry, collapse it
+    setExpandedEntryId(expandedEntryId === entry.id ? null : entry.id);
   }
-
-  const handleCloseEntryDetails: React.MouseEventHandler = () => {
-    fire({ action: "UNSELECT_ENTRY" });
-  };
 
   const handleMarkAllRead: React.MouseEventHandler = async () => {
     await fire({ action: "MARK_ALL_READ" });
@@ -44,9 +44,9 @@ const FeedPageWithState: React.FC = () => {
     fire({ action: "LOAD_ENTRIES" });
   };
 
-  const handleMarkAsRead = (entryId: number) => {
-    fire({ action: "MARK_AS_READ_ENTRY", id: entryId });
-  };
+  //   const handleMarkAsRead = (entryId: number) => {
+  //     fire({ action: "MARK_AS_READ_ENTRY", id: entryId });
+  //   };
 
   const handleAllRead: React.MouseEventHandler = async () => {
     if (!window.confirm("Are you sure?")) {
@@ -111,7 +111,7 @@ const FeedPageWithState: React.FC = () => {
                   key={e.id}
                   entry={e}
                   onSelect={handleEntrySelect}
-                  onMarkAsRead={handleMarkAsRead}
+                  isExpanded={expandedEntryId === e.id}
                 />
               ))}
             </div>
@@ -119,32 +119,6 @@ const FeedPageWithState: React.FC = () => {
             {!loading && (entries ?? []).length > 0 && (
               <div className="actions">
                 <button onClick={handleMarkAllRead}>✓ Mark All as Read</button>
-              </div>
-            )}
-          </div>
-          <div className={`entry-detail ${selectedEntry ? "show" : ""}`}>
-            <div className="entry-detail-top">
-              <a onClick={handleCloseEntryDetails} className="close">
-                [x] Close
-              </a>
-            </div>
-            {selectedEntry && (
-              <div className="entry-detail-body">
-                <h1 className="entry-detail-title">
-                  <a
-                    href={selectedEntry.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {selectedEntry.title}
-                  </a>
-                </h1>
-                <div
-                  className="entry-detail-content"
-                  dangerouslySetInnerHTML={{
-                    __html: forceNewTab(dropHeight(selectedEntry.summary)),
-                  }}
-                />
               </div>
             )}
           </div>
