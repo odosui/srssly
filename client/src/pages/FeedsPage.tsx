@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { shorten } from "../lib/utils";
 import MobileBottomMenu from "../MobileBottomMenu";
 import StateProvider, { StateContext } from "../StateProvider";
+import TopBar from "../components/TopBar";
+import NewFeedForm from "../components/NewFeedForm";
 
 const FeedsPage: React.FC = () => {
   return (
@@ -12,12 +14,10 @@ const FeedsPage: React.FC = () => {
 };
 
 const FeedsPageWithState: React.FC = () => {
-  const [newFeedUrl, setNewFeedUrl] = React.useState("");
-
   const {
     state: {
       feeds: { data: feeds, loading },
-      addFeedForm: { visible: formVisible, options, adding },
+      addFeedForm: { visible: formVisible },
     },
     fire,
   } = useContext(StateContext);
@@ -27,19 +27,6 @@ const FeedsPageWithState: React.FC = () => {
       return;
     }
     fire({ action: "DEL_FEED", id });
-  };
-
-  const doAddFeed = async (url: string) => {
-    await fire({ action: "ADD_FEED", url });
-    setNewFeedUrl("");
-  };
-
-  const handleAddFeed = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (newFeedUrl === "") {
-      return;
-    }
-    await doAddFeed(newFeedUrl);
   };
 
   const handleShowAddFeedForm: React.MouseEventHandler = () => {
@@ -56,12 +43,8 @@ const FeedsPageWithState: React.FC = () => {
 
   return (
     <StateProvider>
-      <nav className="top-bar">
-        <div className="logo">
-          <img src="/icon512.png" />
-          <span>sRSSly</span>
-        </div>
-        <div className="actions">
+      <TopBar
+        actions={
           <div className="entries-top-actions">
             <button
               className="icon-button"
@@ -71,54 +54,11 @@ const FeedsPageWithState: React.FC = () => {
               <i className="fa-solid fa-plus" />
             </button>
           </div>
-        </div>
-      </nav>
-
+        }
+      />
       <div className="page-container">
         <main className="feeds-page">
-          {formVisible && (
-            <div className="add-feed-wrapper">
-              {options.length > 0 && (
-                <div className="add-feed-options">
-                  <div className="add-feed-options">
-                    <div className="add-feed-options-header">Which one?</div>
-                    {options.map((option) => (
-                      <a
-                        href="#"
-                        className="add-feed-option"
-                        key={option.url}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          doAddFeed(option.url);
-                        }}
-                      >
-                        {option.title}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {options.length === 0 && (
-                <form className="add-feed-form" onSubmit={handleAddFeed}>
-                  <div className="form-item">
-                    <input
-                      type="text"
-                      placeholder="Feed URL"
-                      value={newFeedUrl}
-                      onChange={(e) => setNewFeedUrl(e.target.value)}
-                      autoFocus
-                    />
-                  </div>
-                  <div className="form-item">
-                    <button type="submit" disabled={!newFeedUrl || adding}>
-                      {adding ? "..." : "Add feed"}
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-          )}
+          {formVisible && <NewFeedForm />}
 
           <div className="feed-list">
             {(feeds ?? []).map((feed) => {

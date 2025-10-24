@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import { isLoggedIn } from "../auth";
+import TopBar from "../components/TopBar";
 import EntryItem from "../EntryItem";
+import { showToast } from "../lib/toast";
 import usePullToRefresh from "../lib/usePullToRefresh";
 import { dropHeight, forceNewTab, setAppBadge } from "../lib/utils";
 import MobileBottomMenu from "../MobileBottomMenu";
 import StateProvider, { StateContext } from "../StateProvider";
 import { type Entry } from "../types";
-import { showToast } from "../lib/toast";
 
 const FeedPage: React.FC = () => {
   return (
@@ -76,12 +77,8 @@ const FeedPageWithState: React.FC = () => {
 
   return (
     <StateProvider>
-      <nav className="top-bar">
-        <div className="logo">
-          <img src="/icon512.png" />
-          <span>sRSSly</span>
-        </div>
-        <div className="actions">
+      <TopBar
+        actions={
           <div className="entries-top-actions">
             {(entries ?? []).length > 0 && (
               <>
@@ -95,8 +92,9 @@ const FeedPageWithState: React.FC = () => {
               </>
             )}
           </div>
-        </div>
-      </nav>
+        }
+      />
+
       <div className="page-container">
         <main className="feed-page">
           <div className="feed-page-inner" ref={ref}>
