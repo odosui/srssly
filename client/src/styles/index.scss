@@ -48,6 +48,7 @@ $mobile: 40rem;
   --color-text-lighter: #a0a0a0;
   --color-text-lightest: #ccc;
   --color-bg: #f8f8f8;
+  --color-card-bg: #fff;
   --color-accent: #646cff;
   --color-accent-hover: #535bf2;
   --color-accent-contrast: #fff;
@@ -68,6 +69,7 @@ $mobile: 40rem;
     --color-text-lighter: #ccc;
     --color-text-lightest: #aaa;
     --color-bg: #1a1a1a;
+    --color-card-bg: #2a2a2a;
     --color-accent: #646cff;
     --color-accent-hover: #535bf2;
     --color-accent-contrast: #fff;
@@ -87,22 +89,16 @@ $mobile: 40rem;
   color: var(--color-text);
   background-color: var(--color-bg);
 
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
   &.logged-in {
     max-width: 1280px;
     margin: 0 auto;
     width: 100%;
-    // height: 100vh;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-
     .top-bar {
       width: 100%;
       display: flex;
@@ -142,17 +138,33 @@ $mobile: 40rem;
       }
     }
 
-    main {
-      flex: 1;
-      width: 100%;
-      overflow-y: auto;
+    .page-container {
       display: flex;
       flex-direction: column;
-    }
+      align-items: center;
+      justify-content: space-between;
+      height: calc(100vh - $unit6);
 
-    .bottom-mobile-menu {
-      display: none;
-      @media (max-width: $mobile) {
+      @media (min-width: $mobile) {
+        flex-direction: row-reverse;
+        padding: $unit3;
+      }
+
+      main {
+        flex: 1;
+        width: 100%;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: $mobile) {
+          flex-direction: column;
+          justify-content: flex-start;
+          height: 100%;
+        }
+      }
+
+      .nav-menu {
         width: 100%;
         display: flex;
         align-items: center;
@@ -177,6 +189,41 @@ $mobile: 40rem;
           }
           &.active {
             color: var(--color-accent);
+          }
+        }
+
+        @media (min-width: $mobile) {
+          margin: $unit3 0;
+          flex-direction: column;
+          width: $unit10;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding: $unit2;
+          gap: $unit2;
+          border: 1px solid var(--color-border);
+          border-radius: $unit2;
+          .menu-item {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            width: 100%;
+            align-items: center;
+            gap: $unit1;
+            padding: $unit1 $unit3;
+            border-radius: $unit1;
+            transition: background-color 0.1s ease-in-out;
+            &.active {
+              background-color: var(--color-bg);
+            }
+            &:hover {
+              background-color: var(--color-bg);
+            }
+            svg {
+              width: $unit4;
+              height: $unit4;
+            }
           }
         }
       }
@@ -292,24 +339,28 @@ button {
   }
 }
 
-.login-page {
+.auth-page {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: $unit6 $unit3;
+  padding: $unit5 $unit4;
+  background-color: var(--color-card-bg);
+  border-radius: $unit2;
+  margin: $unit8 auto;
+  width: 100%;
+  max-width: $unit12;
+  border: 1px solid var(--color-border);
   h1 {
     margin-bottom: $unit5;
   }
 
-  .login-form {
-    .actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-top: $unit3;
-      button {
-        margin-left: $unit3;
-      }
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: $unit3;
+    button {
+      margin-left: $unit3;
     }
   }
 }
@@ -321,39 +372,12 @@ button {
   margin-bottom: $unit3;
 }
 
-.signup-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: $unit6 $unit3;
-  width: 100%;
-  height: 100%;
-  h1 {
-    margin-bottom: $unit5;
-  }
-
-  .signup-form {
-    width: 100%;
-    max-width: $unit12;
-
-    .actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-top: $unit3;
-      button {
-        margin-left: $unit3;
-      }
-    }
-  }
-}
-
 main.feed-page {
   display: flex;
   flex-direction: column;
   position: relative;
-  background-image: repeating-linear-gradient(
+  background-image:
+    repeating-linear-gradient(
       to bottom,
       transparent,
       transparent 3px,

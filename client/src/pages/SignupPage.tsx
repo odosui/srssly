@@ -36,7 +36,7 @@ const SignupPage: React.FC = () => {
   };
 
   return (
-    <div className="signup-page">
+    <div className="auth-page">
       <h1>Sign Up</h1>
       <div className="signup-form">
         {error && <div className="error">{error}</div>}

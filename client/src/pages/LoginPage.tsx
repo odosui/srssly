@@ -24,7 +24,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="auth-page">
       <h1>Login</h1>
       <div className="login-form">
         {error && <div className="error">{error}</div>}

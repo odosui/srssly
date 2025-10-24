@@ -73,81 +73,86 @@ const FeedsPageWithState: React.FC = () => {
           </div>
         </div>
       </nav>
-      <div className="feeds-page">
-        {formVisible && (
-          <div className="add-feed-wrapper">
-            {options.length > 0 && (
-              <div className="add-feed-options">
+
+      <div className="page-container">
+        <main className="feeds-page">
+          {formVisible && (
+            <div className="add-feed-wrapper">
+              {options.length > 0 && (
                 <div className="add-feed-options">
-                  <div className="add-feed-options-header">Which one?</div>
-                  {options.map((option) => (
-                    <a
-                      href="#"
-                      className="add-feed-option"
-                      key={option.url}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        doAddFeed(option.url);
-                      }}
-                    >
-                      {option.title}
-                    </a>
-                  ))}
+                  <div className="add-feed-options">
+                    <div className="add-feed-options-header">Which one?</div>
+                    {options.map((option) => (
+                      <a
+                        href="#"
+                        className="add-feed-option"
+                        key={option.url}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          doAddFeed(option.url);
+                        }}
+                      >
+                        {option.title}
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {options.length === 0 && (
-              <form className="add-feed-form" onSubmit={handleAddFeed}>
-                <div className="form-item">
-                  <input
-                    type="text"
-                    placeholder="Feed URL"
-                    value={newFeedUrl}
-                    onChange={(e) => setNewFeedUrl(e.target.value)}
-                    autoFocus
-                  />
-                </div>
-                <div className="form-item">
-                  <button type="submit" disabled={!newFeedUrl || adding}>
-                    {adding ? "..." : "Add feed"}
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-        )}
-
-        <div className="feed-list">
-          {(feeds ?? []).map((feed) => {
-            return (
-              <div className="feed-item" key={feed.id}>
-                {feed.icon_url && (
-                  <div className="feed-item-icon">
-                    <img
-                      src={feed.icon_url}
-                      alt={`Icon for feed ${feed.title}`}
+              {options.length === 0 && (
+                <form className="add-feed-form" onSubmit={handleAddFeed}>
+                  <div className="form-item">
+                    <input
+                      type="text"
+                      placeholder="Feed URL"
+                      value={newFeedUrl}
+                      onChange={(e) => setNewFeedUrl(e.target.value)}
+                      autoFocus
                     />
                   </div>
-                )}
-                <div className="feed-item-title">{shorten(feed.title, 42)}</div>
-                <div className="feed-item-delete">
-                  <i
-                    className="fas fa-close"
-                    role="button"
-                    onClick={() => handleFeedDel(feed.id)}
-                  ></i>
-                </div>
-              </div>
-            );
-          })}
-
-          {!loading && (feeds ?? []).length === 0 && (
-            <div className="no-feeds">No feeds found</div>
+                  <div className="form-item">
+                    <button type="submit" disabled={!newFeedUrl || adding}>
+                      {adding ? "..." : "Add feed"}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
           )}
-        </div>
+
+          <div className="feed-list">
+            {(feeds ?? []).map((feed) => {
+              return (
+                <div className="feed-item" key={feed.id}>
+                  {feed.icon_url && (
+                    <div className="feed-item-icon">
+                      <img
+                        src={feed.icon_url}
+                        alt={`Icon for feed ${feed.title}`}
+                      />
+                    </div>
+                  )}
+                  <div className="feed-item-title">
+                    {shorten(feed.title, 42)}
+                  </div>
+                  <div className="feed-item-delete">
+                    <i
+                      className="fas fa-close"
+                      role="button"
+                      onClick={() => handleFeedDel(feed.id)}
+                    ></i>
+                  </div>
+                </div>
+              );
+            })}
+
+            {!loading && (feeds ?? []).length === 0 && (
+              <div className="no-feeds">No feeds found</div>
+            )}
+          </div>
+        </main>
+        <MobileBottomMenu />
       </div>
-      <MobileBottomMenu />
     </StateProvider>
   );
 };

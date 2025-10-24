@@ -14,7 +14,7 @@ const MobileBottomMenu = () => {
   }
 
   return (
-    <div className="bottom-mobile-menu">
+    <div className="nav-menu">
       <NavLink path="/feed" title="Feed" iconClass="fa-solid fa-house" />
       <NavLink path="/feeds" title="Feeds" iconClass="fa-solid fa-bars" />
 

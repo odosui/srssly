@@ -18,7 +18,6 @@ const FeedPage: React.FC = () => {
 
 const FeedPageWithState: React.FC = () => {
   const ref = React.useRef<HTMLDivElement>(null);
-  const root = React.useRef<HTMLDivElement>(null);
 
   const isLogged = isLoggedIn();
 
@@ -98,60 +97,62 @@ const FeedPageWithState: React.FC = () => {
           </div>
         </div>
       </nav>
-      <main className="feed-page" ref={root}>
-        <div className="feed-page-inner" ref={ref}>
-          <div className="entries">
-            {loading && <div className="loading">Loading...</div>}
-            {!loading && (entries ?? []).length === 0 && (
-              <div className="no-entries">
-                <i className="fa-solid fa-mug-saucer"></i>
-                All Clear
+      <div className="page-container">
+        <main className="feed-page">
+          <div className="feed-page-inner" ref={ref}>
+            <div className="entries">
+              {loading && <div className="loading">Loading...</div>}
+              {!loading && (entries ?? []).length === 0 && (
+                <div className="no-entries">
+                  <i className="fa-solid fa-mug-saucer"></i>
+                  All Clear
+                </div>
+              )}
+              {(entries ?? []).map((e) => (
+                <EntryItem
+                  key={e.id}
+                  entry={e}
+                  onSelect={handleEntrySelect}
+                  onMarkAsRead={handleMarkAsRead}
+                />
+              ))}
+            </div>
+
+            {!loading && (entries ?? []).length > 0 && (
+              <div className="actions">
+                <button onClick={handleMarkAllRead}>✓ Mark All as Read</button>
               </div>
             )}
-            {(entries ?? []).map((e) => (
-              <EntryItem
-                key={e.id}
-                entry={e}
-                onSelect={handleEntrySelect}
-                onMarkAsRead={handleMarkAsRead}
-              />
-            ))}
           </div>
-
-          {!loading && (entries ?? []).length > 0 && (
-            <div className="actions">
-              <button onClick={handleMarkAllRead}>✓ Mark All as Read</button>
+          <div className={`entry-detail ${selectedEntry ? "show" : ""}`}>
+            <div className="entry-detail-top">
+              <a onClick={handleCloseEntryDetails} className="close">
+                [x] Close
+              </a>
             </div>
-          )}
-        </div>
-        <div className={`entry-detail ${selectedEntry ? "show" : ""}`}>
-          <div className="entry-detail-top">
-            <a onClick={handleCloseEntryDetails} className="close">
-              [x] Close
-            </a>
+            {selectedEntry && (
+              <div className="entry-detail-body">
+                <h1 className="entry-detail-title">
+                  <a
+                    href={selectedEntry.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {selectedEntry.title}
+                  </a>
+                </h1>
+                <div
+                  className="entry-detail-content"
+                  dangerouslySetInnerHTML={{
+                    __html: forceNewTab(dropHeight(selectedEntry.summary)),
+                  }}
+                />
+              </div>
+            )}
           </div>
-          {selectedEntry && (
-            <div className="entry-detail-body">
-              <h1 className="entry-detail-title">
-                <a
-                  href={selectedEntry.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {selectedEntry.title}
-                </a>
-              </h1>
-              <div
-                className="entry-detail-content"
-                dangerouslySetInnerHTML={{
-                  __html: forceNewTab(dropHeight(selectedEntry.summary)),
-                }}
-              />
-            </div>
-          )}
-        </div>
-      </main>
-      <MobileBottomMenu />
+        </main>
+        <MobileBottomMenu />
+      </div>
     </StateProvider>
   );
 };
