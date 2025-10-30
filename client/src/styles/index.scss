@@ -380,6 +380,7 @@ main.feed-page {
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-y: auto;
   background-image:
     repeating-linear-gradient(
       to bottom,
@@ -445,13 +446,10 @@ main.feed-page {
 
     &.expanded {
       background-color: var(--color-card-bg);
-      margin: $unit2 0;
-      padding: $unit2;
-      border-radius: $unit1;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
       .entry-info {
-        background-color: var(--color-card-bg);
+        display: none;
       }
     }
 
@@ -473,12 +471,15 @@ main.feed-page {
       font-size: $text2;
       z-index: 3;
       background-color: var(--color-bg);
-      padding: $unit2 0;
+      padding: $unit2;
+      border-radius: $unit1;
       cursor: pointer;
-      transition: opacity 0.2s ease-in-out;
+      transition: background-color 0.2s ease-in-out;
 
-      &:hover {
-        opacity: 0.8;
+      @media (min-width: $mobile) {
+        &:hover {
+          background-color: var(--color-card-bg);
+        }
       }
 
       .entry-title {
@@ -543,7 +544,7 @@ main.feed-page {
 
   .entry-detail-inline {
     width: 100%;
-    padding: $unit3 0 0 0;
+    padding: $unit2;
     margin-top: $unit2;
     border-top: 1px solid var(--color-border);
     animation: slideDown 0.3s ease-in-out;
