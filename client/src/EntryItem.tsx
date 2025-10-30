@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { dropHeight, dropTags, forceNewTab, shorten, toAgo } from "./lib/utils";
+import { decodeHtmlEntities, dropHeight, dropTags, forceNewTab, shorten, toAgo } from "./lib/utils";
 import { type Entry } from "./types";
 
 const EntryItem: React.FC<{
@@ -21,9 +21,9 @@ const EntryItem: React.FC<{
         {entry.feed.icon_url && (
           <img className="entry-img" src={entry.feed.icon_url} />
         )}
-        <span className="entry-title">{entry.title}</span>
+        <span className="entry-title">{decodeHtmlEntities(entry.title)}</span>
         <span className="entry-summary">
-          {shorten(dropTags(entry.summary))}
+          {decodeHtmlEntities(shorten(dropTags(entry.summary)))}
         </span>
         <span className="entry-date"> · {toAgo(entry.published)}</span>
         <span className="entry-feed"> · {entry.feed.title}</span>
@@ -33,7 +33,7 @@ const EntryItem: React.FC<{
         <div className="entry-detail-inline">
           <h1 className="entry-detail-title">
             <a href={entry.url} target="_blank" rel="noopener noreferrer">
-              {entry.title}
+              {decodeHtmlEntities(entry.title)}
             </a>
           </h1>
           <div
