@@ -3,6 +3,7 @@ import { isLoggedIn } from "../auth";
 import TopBar from "../components/TopBar";
 import EntryItem from "../EntryItem";
 import { showToast } from "../lib/toast";
+import { useKeyboardNav } from "../lib/useKeyboardNavigation";
 import usePullToRefresh from "../lib/usePullToRefresh";
 import { setAppBadge } from "../lib/utils";
 import MobileBottomMenu from "../MobileBottomMenu";
@@ -74,6 +75,9 @@ const FeedPageWithState: React.FC = () => {
   useEffect(() => {
     setAppBadge(entries?.length ?? 0);
   }, [entries?.length]);
+
+  // j/ArrowDown for next, k/ArrowUp for prev
+  useKeyboardNav(entries, expandedEntryId, handleEntrySelect);
 
   return (
     <StateProvider>
